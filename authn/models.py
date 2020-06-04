@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
     mobile = models.BigIntegerField(unique=True, db_index=True)
-    gender = models.CharField(choices=GENDER, blank=True, null=True)
+    gender = models.CharField(choices=GENDER, max_length=50 ,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -116,6 +116,7 @@ class LoginOtpLog(models.Model):
     mobile = models.BigIntegerField()
     otp = models.PositiveIntegerField()
     name = models.CharField(max_length=150)
+    used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

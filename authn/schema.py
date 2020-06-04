@@ -4,6 +4,7 @@ from elapi.base_schema import Schema
 from elapi.fields import fields
 from elapi.exceptions import InvalidDataException
 from .authn_helper import valid_mobile_number, create_otp
+from .models import User
 
 
 class LoginSchema(Schema):
@@ -19,8 +20,9 @@ class LoginSchema(Schema):
             raise InvalidDataException("Not a valid mobile Number")
 
     @post_load
-    def create_otp(self, data, **kwargs):
+    def post_processing(self, data, **kwargs):
         data['otp'] = create_otp()
+        data['existing_user'] = not User.objects.filter(mobile=data['mobile']).exists()
         return data
 
 
@@ -30,6 +32,8 @@ class OTPSchema(Schema):
     """
     mobile = fields.Number(required=True)
     otp = fields.Number(required=True)
+    gender = fields.String(required=False, allow_none=True)
+    email = fields.String(required=False, allow_none=True)
 
     # @validates_schema
     # def validates_payload_data(self, data):
