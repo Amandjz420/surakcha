@@ -20,7 +20,7 @@ def get_access_token(public_token):
         return json.loads(resp.text)
 
 
-# @shared_task
+@shared_task
 def get_account_item_details(item, user):
     data = settings.PLAID_FORMDATA.copy()
     data['access_token'] = item.access_token

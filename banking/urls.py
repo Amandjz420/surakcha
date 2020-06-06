@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'banking'
 urlpatterns = [
-    url(r'^token_exchange/$', views.AccessTokenExchange.as_view(), name='accessToken'),
-    # url(r'resend_otp/$', views.Login.as_view(),  name='resend'),
-    # url(r'verify_otp/$',  views.VerifyOtp.as_view(), name='verifyOtp'),
+    url(r'^token_exchange/$', views.AccessTokenExchangeApi.as_view(), name='access_token'),
+    url(r'^transactions/update$', views.WebHookPlaidApi.as_view(), name='update_transactions'),
+    url(r'^account_statement/$', views.GetAccountsDetailsApi.as_view(), name='get_details'),
 ]
