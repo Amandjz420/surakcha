@@ -24,7 +24,7 @@ class Login(CreateView):
                 otp=data['otp'],
                 name=data['name'])
             send_sms_otp(data['mobile'], data['name'], data['otp'])
-        return {'success': "OTP has been sent", existing_user: False}
+        return {'success': "OTP has been sent", 'existing_user': existing_user}
 
 
 class VerifyOtp(CreateView):
