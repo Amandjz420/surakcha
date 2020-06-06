@@ -228,6 +228,9 @@ class APIView(BaseAPIView):
             raise ValidationError(err)
         return data
 
+    def throw_error(self, message):
+        raise ValidationError(message)
+
 
 class ListView(APIView):
     """

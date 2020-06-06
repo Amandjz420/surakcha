@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -153,3 +154,12 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# Plaid tokens and keys
+PLAID_URL = 'https://sandbox.plaid.com'
+PLAID_CLIENT_ID = '5ed7d9754635d60013ef7083'
+PLAID_SECRET = "71a0ce081b0aee0166f851aaf3f509"
+PLAID_FORMDATA = {
+    'client_id': PLAID_CLIENT_ID,
+    'secret': PLAID_SECRET
+}

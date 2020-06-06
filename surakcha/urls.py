@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^api/', include([
         url(r'^authn/', include('authn.urls',
                                  namespace='authn')),
+        url(r'^banking/', include('banking.urls',
+                                 namespace='banking')),
     ])),
 ]
