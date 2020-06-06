@@ -1,7 +1,8 @@
 import requests
 import json
 
-from celery import shared_task
+from datetime import datetime, timedelta
+from celery import task
 from django.conf import settings
 
 from .models import Item, Product, Transaction,\
@@ -20,24 +21,26 @@ def get_access_token(public_token):
         return json.loads(resp.text)
 
 
-@shared_task
-def get_account_item_details(item, user):
+@task(name='get_updated_details')
+def get_account_item_details(item_id):
+    item = Item.objects.get(item_id=item_id)
     data = settings.PLAID_FORMDATA.copy()
     data['access_token'] = item.access_token
-    data['start_date'] = '2018-06-05'
-    data['end_date'] = '2020-06-05'
+    date_today = datetime.now()
+    date_before_2_yrs = date_today - timedelta(days=730)
+    data['start_date'] = date_before_2_yrs.strftime('%Y-%m-%d')
+    data['end_date'] = date_today.strftime('%Y-%m-%d')
     headers = {'Content-type': 'application/json'}
     url = settings.PLAID_URL + '/transactions/get'
     resp = requests.post(url, data=json.dumps(data), headers=headers)
     if resp.status_code == 200:
-         process_transactions(resp.json(), user)
+         process_transactions(resp.json(), item)
     else:
         item.recent_tried = item.recent_tried + 1
         item.save()
 
 
-def process_transactions(data, user=None):
-    item = Item.objects.get(item_id=data['item']['item_id'])
+def process_transactions(data, item):
     user = item.user
     accounts = handle_accounts(data['accounts'], user, item)
     handle_transaction(data['transactions'], accounts)

@@ -29,7 +29,7 @@ class AccessTokenExchangeApi(CreateView):
                 'user_id': self.request.user.id
             }
         )
-        get_account_item_details(item, self.request.user)
+        get_account_item_details.delay(item.item_id)
         return {'success': True, 'item_id': item_id}
 
 
@@ -45,7 +45,7 @@ class WebHookPlaidApi(CreateView):
         item.recent_tried = 0
         item.save()
         if 'new_transactions' in data and data['new_transactions'] > 0:
-            get_account_item_details(item, self.request.user)
+            get_account_item_details.delay(item.item_id)
         return {'message': 'Recieved', 'code': 'TRANSACTION_UPDATE'}
 
 

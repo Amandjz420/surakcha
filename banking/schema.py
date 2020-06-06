@@ -26,7 +26,10 @@ class WebHookPlaidApiSchema(Schema):
 
     @post_load
     def get_item_obj(self, data):
-        data['item'] = Item.objects.get(item_id=data['item_id'])
+        try:
+            data['item'] = Item.objects.get(item_id=data['item_id'])
+        except Exception as e:
+            InvalidDataException('Item doesnt exist')
         return data
 
 
