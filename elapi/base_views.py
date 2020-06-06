@@ -1,3 +1,5 @@
+import logging
+
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -7,6 +9,8 @@ from rest_framework.settings import api_settings
 from rest_framework.views import APIView as BaseAPIView
 
 from .exceptions import *
+
+logger = logging.getLogger(__name__)
 
 
 class APIView(BaseAPIView):
@@ -229,6 +233,7 @@ class APIView(BaseAPIView):
         return data
 
     def throw_error(self, message):
+        logger.error(message)
         raise ValidationError(message)
 
 

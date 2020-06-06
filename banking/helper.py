@@ -1,12 +1,13 @@
 import requests
 import json
+import logging
 
-from datetime import datetime, timedelta
-from celery import task
 from django.conf import settings
 
 from .models import Item, Product, Transaction,\
     TransactionCategory, Account
+
+logger = logging.getLogger(__name__)
 
 
 def get_access_token(public_token):
@@ -19,25 +20,6 @@ def get_access_token(public_token):
         return resp.json()
     else:
         return json.loads(resp.text)
-
-
-@task(name='get_updated_details')
-def get_account_item_details(item_id):
-    item = Item.objects.get(item_id=item_id)
-    data = settings.PLAID_FORMDATA.copy()
-    data['access_token'] = item.access_token
-    date_today = datetime.now()
-    date_before_2_yrs = date_today - timedelta(days=730)
-    data['start_date'] = date_before_2_yrs.strftime('%Y-%m-%d')
-    data['end_date'] = date_today.strftime('%Y-%m-%d')
-    headers = {'Content-type': 'application/json'}
-    url = settings.PLAID_URL + '/transactions/get'
-    resp = requests.post(url, data=json.dumps(data), headers=headers)
-    if resp.status_code == 200:
-         process_transactions(resp.json(), item)
-    else:
-        item.recent_tried = item.recent_tried + 1
-        item.save()
 
 
 def process_transactions(data, item):

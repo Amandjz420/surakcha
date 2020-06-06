@@ -1,9 +1,12 @@
+import logging
+
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from elapi.base_views import CreateView, ListView
 from elapi.exceptions import InvalidDataException, APIOValidationException
 from .schema import PublicTokenApiSchema, WebHookPlaidApiSchema, AccountSchema
-from .helper import get_access_token, get_account_item_details
+from .helper import get_access_token
+from .tasks import get_account_item_details
 from .models import Item, Account
 
 
