@@ -7,8 +7,10 @@ cffi==1.14.0
 chardet==3.0.4
 cryptography==2.9.2
 Django==3.0.7
+django-celery-beat==2.0.0
 django-cors-headers==3.3.0
 django-searchable-encrypted-fields==0.1.4
+django-timezone-field==4.0
 djangorestframework==3.11.0
 future==0.18.2
 idna==2.9
@@ -19,6 +21,8 @@ psycopg2-binary==2.8.5
 pycparser==2.20
 pycryptodome==3.9.7
 PyJWT==1.7.1
+python-crontab==2.5.1
+python-dateutil==2.8.1
 pytz==2020.1
 redis==3.5.3
 requests==2.23.0

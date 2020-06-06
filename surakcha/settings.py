@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'authn',
     'banking',
     'encrypted_fields',
+    'django_celery_beat',
 ]
 
 AUTH_USER_MODEL = 'authn.User'
