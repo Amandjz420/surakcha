@@ -18,6 +18,7 @@ API to care about
 ## login api POST
 POST
 http://{YOUR_IP}/api/authn/login/
+
 {
 	"mobile": 8441000947,
 	"name": "Aman"
@@ -31,6 +32,7 @@ repsonse:
 ## Resend otp api POST
 POST
 http://{YOUR_IP}/api/authn/resend_otp/
+
 {
 	"mobile": 8441000947,
 	"name": "Aman"
@@ -43,6 +45,7 @@ repsonse:
 ## verify otp POST
 POST
 http://{YOUR_IP}/api/authn/verify_otp/
+
 {
 	"mobile": 8441000947,
 	"otp": 413033,
@@ -58,6 +61,9 @@ reponse
 ## token exchange POST
 POST
 http://{YOUR_IP}/api/banking/token_exchange/
+
+header: {"Authorization": "JWT 'token'"} // token you get from login api
+
 {
 	"public_token": "public-sandbox-ebf36bf1-5fea-4cdc-8135-e8fc9955f3a0"
 }
@@ -71,6 +77,9 @@ reponse
 ## api for fetching accounts and transactions GET
 GET
 http://{YOUR_IP}/api/banking/account_statement/?account_id=
+
+header: {"Authorization": "JWT 'token'"} // token you get from login api
+
 where if you want details of specific account you can pass account_id as param
 
 [
@@ -153,6 +162,7 @@ where if you want details of specific account you can pass account_id as param
 ## webhook for Plaid trnscation update
 POST
 http://{YOUR_IP}/api/banking/transactions/update
+
 {
 "error": null,
 "webhook_code": "data",
@@ -160,6 +170,7 @@ http://{YOUR_IP}/api/banking/transactions/update
 "item_id": "item_id",
 "new_transaction": 105
 }
+
 response:
 {'message': 'Recieved', 'code': 'TRANSACTION_UPDATE'}
 
